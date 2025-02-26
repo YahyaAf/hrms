@@ -25,9 +25,10 @@ class RolePermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission]);
         }
 
+        
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
-        
+
         $adminRole->syncPermissions($permissions);
 
         $user = \App\Models\User::first();
