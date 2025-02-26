@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EmploiController;
+use App\Http\Controllers\ContractController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('departements',DepartementController::class);
     Route::resource('emplois',EmploiController::class);
+    Route::resource('contracts', ContractController::class);
+
 });
 
 require __DIR__.'/auth.php';
