@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\EmploiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('departements',DepartementController::class);
+    Route::resource('emplois',EmploiController::class);
 });
 
 require __DIR__.'/auth.php';
