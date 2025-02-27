@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EmploiController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('emplois',EmploiController::class);
     Route::resource('contracts', ContractController::class);
     Route::resource('grades', GradeController::class);
+    Route::resource('users', UserController::class);
 
 
 });
