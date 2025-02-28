@@ -76,4 +76,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Grade::class);
     }
+
+    
+    public function formations()
+    {
+        return $this->belongsToMany(Formation::class, 'formation_user');
+    }
+
 }
