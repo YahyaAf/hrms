@@ -6,6 +6,7 @@ use App\Http\Controllers\EmploiController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FormationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('grades', GradeController::class);
     Route::resource('users', UserController::class);
     Route::get('/get-emplois/{departement_id}', [UserController::class, 'getEmplois']);
+    Route::resource('formations', FormationController::class);
     
 
 
