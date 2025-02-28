@@ -91,28 +91,35 @@
             </div>
 
             <div class="mb-4">
-                <label for="departement_id" class="block text-gray-700 font-semibold">Département</label>
-                <select class="form-input mt-1 block w-full" id="departement_id" name="departement_id">
+                <label for="departement_id" class="block text-sm font-medium text-gray-700">Département</label>
+                <select class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+                        id="departement_id" name="departement_id">
+                    <option value="">Sélectionnez un département</option>
                     @foreach($departements as $departement)
-                        <option value="{{ $departement->id }}" {{ $user->departement_id == $departement->id ? 'selected' : '' }}>{{ $departement->nom }}</option>
+                        <option value="{{ $departement->id }}" 
+                            {{ isset($user) && $user->departement_id == $departement->id ? 'selected' : '' }}>
+                            {{ $departement->nom }}
+                        </option>
                     @endforeach
                 </select>
-                @error('departement_id') 
-                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                @enderror
             </div>
 
             <div class="mb-4">
-                <label for="emploi_id" class="block text-gray-700 font-semibold">Emploi</label>
-                <select class="form-input mt-1 block w-full" id="emploi_id" name="emploi_id">
-                    @foreach($emplois as $emploi)
-                        <option value="{{ $emploi->id }}" {{ $user->emploi_id == $emploi->id ? 'selected' : '' }}>{{ $emploi->name }}</option>
-                    @endforeach
+                <label for="emploi_id" class="block text-sm font-medium text-gray-700">Emploi</label>
+                <select class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" 
+                        id="emploi_id" name="emploi_id">
+                    <option value="">Sélectionnez un emploi</option>
+                    @if(isset($emplois) && isset($user))
+                        @foreach($emplois as $emploi)
+                            <option value="{{ $emploi->id }}" 
+                                {{ $user->emploi_id == $emploi->id ? 'selected' : '' }}>
+                                {{ $emploi->name }}
+                            </option>
+                        @endforeach
+                    @endif
                 </select>
-                @error('emploi_id') 
-                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                @enderror
             </div>
+
 
             <div class="mb-4">
                 <label for="grade_id" class="block text-gray-700 font-semibold">Grade</label>
@@ -132,4 +139,27 @@
             </div>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#departement_id').on('change', function() {
+                var departementId = $(this).val();
+
+                if (departementId) {
+                    $.ajax({
+                        url: '/get-emplois/' + departementId,
+                        type: 'GET',
+                        success: function(response) {
+                            $('#emploi_id').empty().append('<option value="">Sélectionnez un emploi</option>');
+                            $.each(response, function(key, emploi) {
+                                $('#emploi_id').append('<option value="'+ emploi.id +'">'+ emploi.name +'</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#emploi_id').empty().append('<option value="">Sélectionnez un emploi</option>');
+                }
+            });
+        });
+    </script>
 </x-app-layout>
