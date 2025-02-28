@@ -82,4 +82,10 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Utilisateur supprimé avec succès.');
     }
+
+    public function getEmplois($departement_id)
+    {
+        $emplois = Emploi::where('departement_id', $departement_id)->get();
+        return response()->json($emplois);
+    }
 }

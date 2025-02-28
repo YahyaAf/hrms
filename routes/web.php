@@ -8,6 +8,8 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('contracts', ContractController::class);
     Route::resource('grades', GradeController::class);
     Route::resource('users', UserController::class);
+    Route::get('/get-emplois/{departement_id}', [UserController::class, 'getEmplois']);
+    
 
 
 });
