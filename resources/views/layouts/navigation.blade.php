@@ -16,14 +16,17 @@
                     <x-nav-link :href="route('departements.index')" :active="request()->routeIs('departements.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Départements') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('emplois.index')" :active="request()->routeIs('departements.*')" class="text-white hover:text-indigo-100 font-medium">
+                    <x-nav-link :href="route('emplois.index')" :active="request()->routeIs('emplois.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Emplois') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('grades.index')" :active="request()->routeIs('departements.*')" class="text-white hover:text-indigo-100 font-medium">
+                    <x-nav-link :href="route('grades.index')" :active="request()->routeIs('grades.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Grades') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('contracts.index')" :active="request()->routeIs('departements.*')" class="text-white hover:text-indigo-100 font-medium">
+                    <x-nav-link :href="route('contracts.index')" :active="request()->routeIs('contracts.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Contracts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="text-white hover:text-indigo-100 font-medium">
+                        {{ __('Users') }}
                     </x-nav-link>
                 </div>
             </div>
