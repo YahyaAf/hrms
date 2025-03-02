@@ -13,9 +13,12 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('departements.index')" :active="request()->routeIs('departements.*')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Départements') }}
-                    </x-nav-link>
+                    @can('view-departement')
+                        <x-nav-link :href="route('departements.index')" :active="request()->routeIs('departements.*')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Départements') }}
+                        </x-nav-link>
+                    @endcan
+
                     <x-nav-link :href="route('emplois.index')" :active="request()->routeIs('emplois.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Emplois') }}
                     </x-nav-link>

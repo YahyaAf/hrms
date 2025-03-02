@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -13,36 +14,23 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        // // Define permissions
-        // $permissions = [
-        //     'create departement',
-        //     'edit departement',
-        //     'delete departement',
-        //     'view departement',
-        // ];
+        // Define permissions for department management
+        $permissions = [
+            'create-departement',
+            'edit-departement',
+            'delete-departement',
+            'view-departement',
+        ];
 
         // Create permissions if they don't exist
-        // foreach ($permissions as $permission) {
-        //     Permission::firstOrCreate(['name' => $permission]);
-        // }
-
-        // Create roles
-        $roles = ['RH', 'manager', 'employe'];
-
-        foreach ($roles as $roleName) {
-            Role::firstOrCreate(['name' => $roleName]);
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
-        // // Assign all permissions to admin
-        // $adminRole = Role::where('name', 'admin')->first();
-        // if ($adminRole) {
-        //     $adminRole->syncPermissions($permissions);
-        // }
-
-        // // Assign admin role to the first user (optional)
-        // $user = \App\Models\User::first();
-        // if ($user) {
-        //     $user->assignRole('admin');
-        // }
+        // Assign all department permissions to admin
+        $adminRole = Role::where('name', 'admin')->first();
+        if ($adminRole) {
+            $adminRole->syncPermissions($permissions);
+        }
     }
 }

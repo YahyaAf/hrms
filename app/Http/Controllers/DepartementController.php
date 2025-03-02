@@ -6,9 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DepartementRequest;
 use Illuminate\Http\Request;
 use App\Models\Departement;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Illuminate\Routing\Controller as BaseController;
 
-class DepartementController extends Controller
+
+class DepartementController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-departement')->only(['index', 'show']);
+        $this->middleware('permission:create-departement')->only(['create', 'store']);
+        $this->middleware('permission:edit-departement')->only(['edit', 'update']);
+        $this->middleware('permission:delete-departement')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -40,7 +51,7 @@ class DepartementController extends Controller
      */
     public function show(Departement $departement)
     {
-        return view('departements.show',compact('departement'));
+        return view('departements.show', compact('departement'));
     }
 
     /**
@@ -48,16 +59,16 @@ class DepartementController extends Controller
      */
     public function edit(Departement $departement)
     {
-        return view('departements.edit',compact('departement'));
+        return view('departements.edit', compact('departement'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(DepartementRequest $request,Departement $departement)
+    public function update(DepartementRequest $request, Departement $departement)
     {
         $departement->update($request->validated());
-        return redirect()->route('departements.index')->with('sucess','Département modifier avec succès.');
+        return redirect()->route('departements.index')->with('success', 'Département modifié avec succès.');
     }
 
     /**
