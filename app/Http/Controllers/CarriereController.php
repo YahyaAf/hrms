@@ -7,7 +7,7 @@ use App\Models\Contract;
 use App\Models\Departement;
 use App\Models\Emploi;
 use App\Models\Grade;
-use App\Models\Carriere;
+use App\Models\Carriere; // Importation du modèle Carriere
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
@@ -28,7 +28,7 @@ class UserController extends Controller
         $departements = Departement::all();
         $emplois = Emploi::all();
         $grades = Grade::all();
-        $roles = Role::all();
+        $roles = Role::all(); 
 
         return view('users.create', compact('contracts', 'departements', 'emplois', 'grades', 'roles'));
     }
@@ -38,20 +38,20 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
 
+        // Création de l'utilisateur
         $user = User::create($data);
 
         if ($request->has('role')) {
-            $user->assignRole($request->role);
+            $user->assignRole($request->role); 
         }
 
-        $grade = Grade::find($request->grade_id);
-        $promotion = $grade ? $grade->name : 'default';
-
+        // Création de la carrière associée à l'utilisateur
         $carriere = new Carriere();
-        $carriere->user_id = $user->id;
-        $carriere->promotion = $promotion; 
-        $carriere->augmentation = $request->salaire;
-        $carriere->save();
+        $carriere->user_id = $user->id; // Associer l'ID de l'utilisateur
+        $carriere->promotion = $request->promotion; // Utilisation de 'promotion' à la place de 'grade_id'
+        $carriere->augmentation = $request->augmentation; // Utilisation de 'augmentation' à la place de 'salaire'
+        $carriere->formation_id = 1; // Si une formation est associée, on la met ici
+        $carriere->save(); // Sauvegarder la carrière
 
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
     }
@@ -67,8 +67,8 @@ class UserController extends Controller
         $departements = Departement::all();
         $emplois = Emploi::all();
         $grades = Grade::all();
-        $roles = Role::all();
-        $userRole = $user->roles->pluck('name')->first();
+        $roles = Role::all(); // Récupérer les rôles
+        $userRole = $user->roles->pluck('name')->first(); // Récupérer le rôle actuel
 
         return view('users.edit', compact('user', 'contracts', 'departements', 'emplois', 'grades', 'roles', 'userRole'));
     }
@@ -86,16 +86,14 @@ class UserController extends Controller
         $user->update($data);
 
         if ($request->has('role')) {
-            $user->syncRoles([$request->role]);
+            $user->syncRoles([$request->role]); 
         }
 
+        // Mise à jour de la carrière
         $carriere = Carriere::where('user_id', $user->id)->first();
         if ($carriere) {
-            $grade = Grade::find($request->grade_id);
-            $promotion = $grade ? $grade->name : 'default'; 
-
-            $carriere->promotion = $promotion; 
-            $carriere->augmentation = $request->salaire; 
+            $carriere->promotion = 2; // Mise à jour du grade (promotion)
+            $carriere->augmentation = 6; // Mise à jour du salaire (augmentation)
             $carriere->save();
         }
 
@@ -104,6 +102,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        // Supprimer la carrière associée avant de supprimer l'utilisateur
         $carriere = Carriere::where('user_id', $user->id)->first();
         if ($carriere) {
             $carriere->delete();

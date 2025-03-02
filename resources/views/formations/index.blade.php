@@ -48,7 +48,7 @@
         </table>
     
         <div class="mt-4">
-            {{ $formations->links() }} <!-- Pagination -->
+            {{ $formations->links() }} 
         </div>
     </div>
     </x-app-layout>
