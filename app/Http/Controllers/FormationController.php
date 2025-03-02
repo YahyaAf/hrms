@@ -32,20 +32,18 @@ class FormationController extends Controller
         ]);
 
         $formation->users()->attach($data['users']);
+        foreach ($data['users'] as $user_id) {
+            \App\Models\Carriere::create([
+                'user_id' => $user_id,
+                'formation_id' => $formation->id,
+                'promotion' => null, 
+                'augmentation' => null, 
+            ]);
+        }
 
         return redirect()->route('formations.index')->with('success', 'Formation créée avec succès.');
     }
 
-    public function show(Formation $formation)
-    {
-        return view('formations.show', compact('formation'));
-    }
-
-    public function edit(Formation $formation)
-    {
-        $users = User::all(); 
-        return view('formations.edit', compact('formation', 'users'));
-    }
 
     public function update(UpdateFormationRequest $request, Formation $formation)
     {
@@ -59,12 +57,27 @@ class FormationController extends Controller
 
         $formation->users()->sync($data['users']);
 
+        \App\Models\Carriere::where('formation_id', $formation->id)->delete();
+        foreach ($data['users'] as $user_id) {
+            \App\Models\Carriere::create([
+                'user_id' => $user_id,
+                'formation_id' => $formation->id,
+                'promotion' => null, 
+                'augmentation' => null, 
+            ]);
+        }
+
         return redirect()->route('formations.index')->with('success', 'Formation mise à jour avec succès.');
     }
 
     public function destroy(Formation $formation)
     {
+        \App\Models\Carriere::where('formation_id', $formation->id)->delete();
+        $formation->users()->detach();
         $formation->delete();
+
         return redirect()->route('formations.index')->with('success', 'Formation supprimée avec succès.');
     }
+
+
 }
