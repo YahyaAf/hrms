@@ -18,26 +18,23 @@
 
             <div class="mb-4">
                 <strong class="text-lg text-gray-700">Grade :</strong>
+                <!-- Display grade name -->
                 <p class="text-gray-600">{{ $carriere->grade->name ?? 'Non défini' }}</p>
             </div>
 
             <div class="mb-4">
                 <strong class="text-lg text-gray-700">Salaire :</strong>
-                <p class="text-gray-600">{{ $carriere->salaire }} €</p>
-            </div>
-
-            <div class="mb-4">
-                <strong class="text-lg text-gray-700">Promotion :</strong>
-                <p class="text-gray-600">{{ $carriere->promotion }}</p>
+                <p class="text-gray-600">{{ $carriere->salaire ?? 'Non défini' }} €</p>
             </div>
 
             <div class="mb-4">
                 <strong class="text-lg text-gray-700">Augmentation :</strong>
-                <p class="text-gray-600">{{ $carriere->augmentation }} €</p>
+                <p class="text-gray-600">{{ $carriere->augmentation ?? 'Non défini' }} €</p>
             </div>
 
             <div class="mb-4">
                 <strong class="text-lg text-gray-700">Formation :</strong>
+                <!-- Display formation name -->
                 <p class="text-gray-600">{{ $carriere->formation->name ?? 'Aucune formation assignée' }}</p>
             </div>
         </div>

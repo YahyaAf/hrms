@@ -23,7 +23,9 @@
                 @foreach($carrieres as $carriere)
                     <tr class="border-b">
                         <td class="px-4 py-2 text-sm text-gray-700">{{ $carriere->user->name }}</td>
-                        <td class="px-4 py-2 text-sm text-gray-700">{{ $carriere->promotion }}</td>
+                        <td class="px-4 py-2 text-sm text-gray-700">
+                            {{ $carriere->grade ? $carriere->grade->name : 'Aucun' }}
+                        </td>                        
                         <td class="px-4 py-2 text-sm text-gray-700">{{ $carriere->augmentation }}</td>
                         <td class="px-4 py-2 text-sm text-gray-700">{{ $carriere->formation->name ?? 'Aucune' }}</td>
                         <td class="px-4 py-2 text-sm text-gray-700">

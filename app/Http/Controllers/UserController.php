@@ -45,11 +45,11 @@ class UserController extends Controller
         }
 
         $grade = Grade::find($request->grade_id);
-        $promotion = $grade ? $grade->name : 'default';
+        $grade_id = $grade ? $grade->id : 'default';
 
         $carriere = new Carriere();
         $carriere->user_id = $user->id;
-        $carriere->promotion = $promotion; 
+        $carriere->grade_id = $grade_id; 
         $carriere->augmentation = $request->salaire;
         $carriere->save();
 
@@ -92,7 +92,7 @@ class UserController extends Controller
         $carriere = Carriere::where('user_id', $user->id)->first();
         if ($carriere) {
             $grade = Grade::find($request->grade_id);
-            $promotion = $grade ? $grade->name : 'default'; 
+            $promotion = $grade ? $grade->id : 'default'; 
 
             $carriere->promotion = $promotion; 
             $carriere->augmentation = $request->salaire; 

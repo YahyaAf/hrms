@@ -32,22 +32,23 @@ class CarriereController extends Controller
     public function update(Request $request, $user_id)
     {
         $request->validate([
-            'promotion' => 'required|exists:grades,id', 
+            'grade_id' => 'required|exists:grades,id', 
             'augmentation' => 'required|numeric|min:0', 
         ]);
 
         $carriere = Carriere::where('user_id', $user_id)->firstOrFail();
         $carriere->update([
-            'promotion' => $request->promotion, 
+            'grade_id' => $request->grade_id, 
             'augmentation' => $request->augmentation, 
         ]);
 
         $user = User::findOrFail($user_id);
-        $user->grade_id = $request->promotion; 
+        $user->grade_id = $request->grade_id; 
         $user->salaire = $request->augmentation; 
         $user->save(); 
 
         return redirect()->route('carrieres.index')->with('success', 'Promotion et augmentation mises à jour avec succès.');
     }
+
 
 }

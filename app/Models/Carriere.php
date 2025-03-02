@@ -9,12 +9,7 @@ class Carriere extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'promotion', 
-        'augmentation', 
-        'formation_id',
-    ];
+    protected $fillable = ['grade_id', 'augmentation', 'user_id', 'formation_id'];
 
     public function user()
     {
@@ -25,6 +20,12 @@ class Carriere extends Model
     {
         return $this->belongsTo(Formation::class);
     }
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id', 'id');
+    }
+
 
     protected static function boot()
     {

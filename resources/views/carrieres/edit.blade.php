@@ -19,7 +19,7 @@
             <div class="mb-4">
                 <label for="grade_id" class="block text-sm font-medium text-gray-700">Grade</label>
                 <div class="relative">
-                    <select id="promotion" name="promotion" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200">
+                    <select id="grade_id" name="grade_id" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200">
                         @foreach($grades as $grade)
                             <option value="{{ $grade->id }}" {{ $carriere->grade_id == $grade->id ? 'selected' : '' }}>
                                 {{ $grade->name }}
