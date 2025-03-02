@@ -34,6 +34,9 @@
                     <x-nav-link :href="route('carrieres.index')" :active="request()->routeIs('carrieres.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Carrieres') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('hierarchy.index')" :active="request()->routeIs('hierarchy.*')" class="text-white hover:text-indigo-100 font-medium">
+                        {{ __('Hierarchy') }}
+                    </x-nav-link>
                 </div>
             </div>
 

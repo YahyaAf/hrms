@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\CarriereController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HierarchyController;
 
 
 
@@ -40,6 +41,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{user_id}/edit', [CarriereController::class, 'edit'])->name('edit');
         Route::put('/{user_id}', [CarriereController::class, 'update'])->name('update');
     });
+
+    Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
 
 
 });
