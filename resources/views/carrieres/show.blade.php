@@ -1,16 +1,47 @@
 <x-app-layout>
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-semibold mb-4">Détails de la Carrière</h1>
+    <div class="container mx-auto py-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Détails de la Carrière de {{ $carriere->user->name }}</h1>
 
-        <div class="mb-4">
-            <a href="{{ route('carrieres.index') }}" class="text-blue-500 hover:underline">Retour à la liste des carrières</a>
+        <!-- Success message (if any) -->
+        @if(session('success'))
+            <div class="bg-green-100 text-green-700 p-4 rounded mb-6">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Carrière Details -->
+        <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+            <div class="mb-4">
+                <strong class="text-lg text-gray-700">Utilisateur :</strong>
+                <p class="text-gray-600">{{ $carriere->user->name }}</p>
+            </div>
+
+            <div class="mb-4">
+                <strong class="text-lg text-gray-700">Grade :</strong>
+                <p class="text-gray-600">{{ $carriere->grade->name ?? 'Non défini' }}</p>
+            </div>
+
+            <div class="mb-4">
+                <strong class="text-lg text-gray-700">Salaire :</strong>
+                <p class="text-gray-600">{{ $carriere->salaire }} €</p>
+            </div>
+
+            <div class="mb-4">
+                <strong class="text-lg text-gray-700">Promotion :</strong>
+                <p class="text-gray-600">{{ $carriere->promotion }}</p>
+            </div>
+
+            <div class="mb-4">
+                <strong class="text-lg text-gray-700">Augmentation :</strong>
+                <p class="text-gray-600">{{ $carriere->augmentation }} €</p>
+            </div>
+
+            <div class="mb-4">
+                <strong class="text-lg text-gray-700">Formation :</strong>
+                <p class="text-gray-600">{{ $carriere->formation->name ?? 'Aucune formation assignée' }}</p>
+            </div>
         </div>
 
-        <div class="bg-white p-6 rounded-md shadow-md">
-            <h2 class="text-xl font-bold mb-2">Utilisateur : {{ $carriere->user->name }}</h2>
-            <p class="text-gray-600 mb-2"><strong>Grade :</strong> {{ $carriere->grade->name }}</p>
-            <p class="text-gray-600 mb-2"><strong>Salaire :</strong> {{ $carriere->salaire }} €</p>
-            <p class="text-gray-600 mb-2"><strong>Formation associée :</strong> {{ $carriere->formation->name }}</p>
-        </div>
+        <a href="{{ route('carrieres.index') }}" class="text-blue-600 hover:text-blue-800">Retour à la liste des carrières</a>
     </div>
 </x-app-layout>

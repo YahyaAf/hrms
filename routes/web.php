@@ -34,10 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('formations', FormationController::class);
     
 
-    Route::get('/carrieres', [CarriereController::class, 'index'])->name('carrieres.index');
-    Route::get('/carrieres/{id}', [CarriereController::class, 'show'])->name('carrieres.show');
-    Route::get('/carrieres/{user_id}/edit', [CarriereController::class, 'edit'])->name('carrieres.edit');
-    Route::put('/carrieres/{user_id}', [CarriereController::class, 'update'])->name('carrieres.update');
+    Route::prefix('carrieres')->name('carrieres.')->group(function () {
+        Route::get('/', [CarriereController::class, 'index'])->name('index');
+        Route::get('/{id}', [CarriereController::class, 'show'])->name('show');
+        Route::get('/{user_id}/edit', [CarriereController::class, 'edit'])->name('edit');
+        Route::put('/{user_id}', [CarriereController::class, 'update'])->name('update');
+    });
 
 
 });

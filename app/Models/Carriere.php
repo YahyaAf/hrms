@@ -25,4 +25,21 @@ class Carriere extends Model
     {
         return $this->belongsTo(Formation::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($carriere) {
+            $user = $carriere->user;
+            if ($user) {
+                if ($carriere->isDirty('promotion')) {
+                    $user->update(['promotion' => $carriere->promotion]);
+                }
+                if ($carriere->isDirty('augmentation')) {
+                    $user->update(['augmentation' => $carriere->augmentation]);
+                }
+            }
+        });
+    }
 }
