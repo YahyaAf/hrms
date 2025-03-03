@@ -27,7 +27,12 @@ class UserController extends BaseController
 
     public function index()
     {
-        $users = User::with(['contract', 'departement', 'emploi', 'grade', 'roles'])->paginate(10);
+        $users = User::with(['contract', 'departement', 'emploi', 'grade', 'roles'])
+            ->whereDoesntHave('roles', function ($query) {
+                $query->where('name', 'admin');
+            })
+            ->paginate(10);
+
         return view('users.index', compact('users'));
     }
 
@@ -37,10 +42,11 @@ class UserController extends BaseController
         $departements = Departement::all();
         $emplois = Emploi::all();
         $grades = Grade::all();
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'admin')->get();  
 
         return view('users.create', compact('contracts', 'departements', 'emplois', 'grades', 'roles'));
     }
+
 
     public function store(StoreUserRequest $request)
     {
