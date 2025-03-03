@@ -6,9 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\GradeRequest;
 use App\Models\Grade;
+use Illuminate\Routing\Controller as BaseController;
 
-class GradeController extends Controller
+class GradeController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-grades')->only(['index', 'show']);
+        $this->middleware('permission:create-grades')->only(['create', 'store']);
+        $this->middleware('permission:edit-grades')->only(['edit', 'update']);
+        $this->middleware('permission:delete-grades')->only('destroy');
+    }
+
     public function index()
     {
         $grades = Grade::all();

@@ -23,9 +23,11 @@
                             {{ __('Emplois') }}
                         </x-nav-link>
                     @endcan
-                    <x-nav-link :href="route('grades.index')" :active="request()->routeIs('grades.*')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Grades') }}
-                    </x-nav-link>
+                    @can('view-grades')
+                        <x-nav-link :href="route('grades.index')" :active="request()->routeIs('grades.*')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Grades') }}
+                        </x-nav-link>
+                    @endcan
                     <x-nav-link :href="route('contracts.index')" :active="request()->routeIs('contracts.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Contracts') }}
                     </x-nav-link>

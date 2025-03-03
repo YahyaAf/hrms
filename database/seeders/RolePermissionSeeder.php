@@ -27,11 +27,19 @@ class RolePermissionSeeder extends Seeder
             'view-emplois',
         ];
 
-        foreach (array_merge($emploisPermissions) as $permission) {
+        $gradesPermissions = [
+            'create-grades',
+            'edit-grades',
+            'delete-grades',
+            'view-grades',
+        ];
+
+        foreach (array_merge($gradesPermissions) as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
         $adminRole = Role::firstOrCreate(['name' => 'admin']); 
         $adminRole->givePermissionTo($departementPermissions);
         $adminRole->givePermissionTo($emploisPermissions);
+        $adminRole->givePermissionTo($gradesPermissions);
     }
 }
