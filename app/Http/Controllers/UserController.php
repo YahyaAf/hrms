@@ -13,9 +13,18 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Role;
+use Illuminate\Routing\Controller as BaseController;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-users')->only(['index', 'show']);
+        $this->middleware('permission:create-users')->only(['create', 'store']);
+        $this->middleware('permission:edit-users')->only(['edit', 'update']);
+        $this->middleware('permission:delete-users')->only('destroy');
+    }
+
     public function index()
     {
         $users = User::with(['contract', 'departement', 'emploi', 'grade', 'roles'])->paginate(10);

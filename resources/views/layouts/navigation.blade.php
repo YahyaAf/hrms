@@ -33,12 +33,16 @@
                             {{ __('Contracts') }}
                         </x-nav-link>
                     @endcan
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Users') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('formations.index')" :active="request()->routeIs('formations.*')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Formations') }}
-                    </x-nav-link>
+                    @can('view-users')
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('view-formations')
+                        <x-nav-link :href="route('formations.index')" :active="request()->routeIs('formations.*')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Formations') }}
+                        </x-nav-link>
+                    @endcan
                     <x-nav-link :href="route('carrieres.index')" :active="request()->routeIs('carrieres.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Carrieres') }}
                     </x-nav-link>

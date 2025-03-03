@@ -6,15 +6,24 @@ use App\Models\Formation;
 use App\Models\User;
 use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Routing\Controller as BaseController;
 
-class FormationController extends Controller
+class FormationController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('can:view-formations')->only(['index']);
+        $this->middleware('can:create-formations')->only(['create', 'store']);
+        $this->middleware('can:edit-formations')->only(['edit', 'update']);
+        $this->middleware('can:delete-formations')->only(['destroy']);
+    }
+
     public function index()
     {
         $formations = Formation::paginate(10); 
         return view('formations.index', compact('formations'));
     }
-
 
     public function create()
     {
@@ -44,6 +53,15 @@ class FormationController extends Controller
         return redirect()->route('formations.index')->with('success', 'Formation créée avec succès.');
     }
 
+    public function edit(Formation $formation)
+    {
+        if (!Gate::allows('edit-formations')) {
+            abort(403);
+        }
+
+        $users = User::all();
+        return view('formations.edit', compact('formation', 'users'));
+    }
 
     public function update(UpdateFormationRequest $request, Formation $formation)
     {
@@ -78,6 +96,4 @@ class FormationController extends Controller
 
         return redirect()->route('formations.index')->with('success', 'Formation supprimée avec succès.');
     }
-
-
 }
