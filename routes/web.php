@@ -13,6 +13,7 @@ use App\Http\Controllers\HierarchyController;
 
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -41,6 +42,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{user_id}/edit', [CarriereController::class, 'edit'])->name('edit');
         Route::put('/{user_id}', [CarriereController::class, 'update'])->name('update');
     });
+    Route::get('/historique', [CarriereController::class, 'historique'])->name('carrieres.historique');
+
 
     Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
 

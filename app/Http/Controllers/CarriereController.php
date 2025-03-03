@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Routing\Controller as BaseController;
 
 class CarriereController extends BaseController
@@ -74,5 +76,15 @@ class CarriereController extends BaseController
         $carriere->delete();
 
         return redirect()->route('carrieres.index')->with('success', 'Carrière supprimée avec succès.');
+    }
+
+    public function historique()
+    {
+        $user = Auth::user();
+        $historique = Carriere::where('user_id', $user->id)
+            ->with('grade') 
+            ->get();
+
+        return view('carrieres.historique', compact('historique'));
     }
 }
