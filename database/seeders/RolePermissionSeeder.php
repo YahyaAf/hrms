@@ -49,31 +49,28 @@ class RolePermissionSeeder extends Seeder
         //     'view-users',
         // ];
 
-        $formationsPermissions = [
-            'create-formations',
-            'edit-formations',
-            'delete-formations',
-            'view-formations',
+        $carrierePermissions = [
+            'create-carriere',
+            'edit-carriere',
+            'delete-carriere',
+            'view-carriere',
         ];
         
-        foreach ($formationsPermissions as $permission) {
+        foreach ($carrierePermissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
 
         $adminRole = Role::where('name', 'admin')->first();
         $rhRole = Role::where('name', 'RH')->first();
-        $managerRole = Role::where('name', 'manager')->first();
+        // $managerRole = Role::where('name', 'manager')->first();
 
         if ($adminRole) {
-            $adminRole->givePermissionTo($formationsPermissions);
+            $adminRole->givePermissionTo($carrierePermissions);
         }
 
         if ($rhRole) {
-            $rhRole->givePermissionTo($formationsPermissions);
+            $rhRole->givePermissionTo($carrierePermissions);
         }
 
-        if ($managerRole) {
-            $managerRole->givePermissionTo($formationsPermissions);
-        }
     }
 }
