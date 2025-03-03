@@ -20,6 +20,10 @@
             </div>
 
             <div class="mb-4">
+                <strong class="text-gray-700">Date de recrutement:</strong> <span class="text-gray-600">{{ $user->date_de_recrutement }}</span>
+            </div>
+
+            <div class="mb-4">
                 <strong class="text-gray-700">Adresse:</strong> <span class="text-gray-600">{{ $user->adresse }}</span>
             </div>
 
