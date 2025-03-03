@@ -39,6 +39,14 @@
             </div>
 
             <div class="mb-4">
+                <label for="date_de_recrutement" class="block text-gray-700 font-semibold">Date de recrutement</label>
+                <input type="date" class="form-input mt-1 block w-full" id="date_de_recrutement" name="date_de_recrutement" value="{{ old('date_de_recrutement', $user->date_de_recrutement) }}">
+                @error('date_de_recrutement') 
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
                 <label for="telephone" class="block text-gray-700 font-semibold">Téléphone</label>
                 <input type="text" class="form-input mt-1 block w-full" id="telephone" name="telephone" value="{{ old('telephone', $user->telephone) }}">
                 @error('telephone') 

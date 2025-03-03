@@ -24,6 +24,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
+            'date_de_recrutement' => 'nullable|date',
             'password' => 'nullable|string|min:8|confirmed',
             'telephone' => 'nullable|string|max:20',
             'date_naissance' => 'nullable|date',
