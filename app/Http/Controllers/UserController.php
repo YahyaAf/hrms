@@ -107,9 +107,9 @@ class UserController extends BaseController
         $carriere = Carriere::where('user_id', $user->id)->first();
         if ($carriere) {
             $grade = Grade::find($request->grade_id);
-            $promotion = $grade ? $grade->id : 'default'; 
+            $grade_id = $grade ? $grade->id : 'default'; 
 
-            $carriere->promotion = $promotion; 
+            $carriere->grade_id = $grade_id; 
             $carriere->augmentation = $request->salaire; 
             $carriere->save();
         }
