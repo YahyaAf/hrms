@@ -6,9 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContractRequest;
 use App\Models\Contract;
+use Illuminate\Routing\Controller as BaseController;
 
-class ContractController extends Controller
+class ContractController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-contracts')->only(['index', 'show']);
+        $this->middleware('permission:create-contracts')->only(['create', 'store']);
+        $this->middleware('permission:edit-contracts')->only(['edit', 'update']);
+        $this->middleware('permission:delete-contracts')->only('destroy');
+    }
+
     public function index()
     {
         $contracts = Contract::all();

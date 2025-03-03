@@ -13,33 +13,49 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        $departementPermissions = [
-            'create-departement',
-            'edit-departement',
-            'delete-departement',
-            'view-departement',
-        ];
+        // $departementPermissions = [
+        //     'create-departement',
+        //     'edit-departement',
+        //     'delete-departement',
+        //     'view-departement',
+        // ];
 
-        $emploisPermissions = [
-            'create-emplois',
-            'edit-emplois',
-            'delete-emplois',
-            'view-emplois',
-        ];
+        // $emploisPermissions = [
+        //     'create-emplois',
+        //     'edit-emplois',
+        //     'delete-emplois',
+        //     'view-emplois',
+        // ];
 
-        $gradesPermissions = [
-            'create-grades',
-            'edit-grades',
-            'delete-grades',
-            'view-grades',
-        ];
+        // $gradesPermissions = [
+        //     'create-grades',
+        //     'edit-grades',
+        //     'delete-grades',
+        //     'view-grades',
+        // ];
 
-        foreach (array_merge($gradesPermissions) as $permission) {
+        
+
+        $contractPermissions = [
+            'create-contracts',
+            'edit-contracts',
+            'delete-contracts',
+            'view-contracts',
+        ];
+        
+        foreach ($contractPermissions as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
-        $adminRole = Role::firstOrCreate(['name' => 'admin']); 
-        $adminRole->givePermissionTo($departementPermissions);
-        $adminRole->givePermissionTo($emploisPermissions);
-        $adminRole->givePermissionTo($gradesPermissions);
+
+        $adminRole = Role::where('name', 'admin')->first();
+        $rhRole = Role::where('name', 'RH')->first();
+
+        if ($adminRole) {
+            $adminRole->givePermissionTo($contractPermissions);
+        }
+
+        if ($rhRole) {
+            $rhRole->givePermissionTo($contractPermissions);
+        }
     }
 }
