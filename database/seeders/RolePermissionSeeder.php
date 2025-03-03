@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\User;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -14,23 +13,25 @@ class RolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        // Define permissions for department management
-        $permissions = [
+        $departementPermissions = [
             'create-departement',
             'edit-departement',
             'delete-departement',
             'view-departement',
         ];
 
-        // Create permissions if they don't exist
-        foreach ($permissions as $permission) {
+        $emploisPermissions = [
+            'create-emplois',
+            'edit-emplois',
+            'delete-emplois',
+            'view-emplois',
+        ];
+
+        foreach (array_merge($emploisPermissions) as $permission) {
             Permission::firstOrCreate(['name' => $permission]);
         }
-
-        // Assign all department permissions to admin
-        $adminRole = Role::where('name', 'admin')->first();
-        if ($adminRole) {
-            $adminRole->syncPermissions($permissions);
-        }
+        $adminRole = Role::firstOrCreate(['name' => 'admin']); 
+        $adminRole->givePermissionTo($departementPermissions);
+        $adminRole->givePermissionTo($emploisPermissions);
     }
 }

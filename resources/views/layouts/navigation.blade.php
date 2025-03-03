@@ -18,10 +18,11 @@
                             {{ __('Départements') }}
                         </x-nav-link>
                     @endcan
-
-                    <x-nav-link :href="route('emplois.index')" :active="request()->routeIs('emplois.*')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Emplois') }}
-                    </x-nav-link>
+                    @can('view-emplois')
+                        <x-nav-link :href="route('emplois.index')" :active="request()->routeIs('emplois.*')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Emplois') }}
+                        </x-nav-link>
+                    @endcan
                     <x-nav-link :href="route('grades.index')" :active="request()->routeIs('grades.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Grades') }}
                     </x-nav-link>
