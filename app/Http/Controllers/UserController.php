@@ -62,9 +62,13 @@ class UserController extends BaseController
         $grade = Grade::find($request->grade_id);
         $grade_id = $grade ? $grade->id : 'default';
 
+        $contract = Contract::find($request->contract_id);
+        $contract_id = $contract ? $contract->id : 'default'; 
+
         $carriere = new Carriere();
         $carriere->user_id = $user->id;
         $carriere->grade_id = $grade_id; 
+        $carriere->contract_id = $contract_id;
         $carriere->augmentation = $request->salaire;
         $carriere->save();
 
@@ -107,10 +111,14 @@ class UserController extends BaseController
         $carriere = Carriere::where('user_id', $user->id)->first();
         if ($carriere) {
             $grade = Grade::find($request->grade_id);
-            $grade_id = $grade ? $grade->id : 'default'; 
+            $grade_id = $grade ? $grade->id : 'default';
+
+            $contract = Contract::find($request->contract_id);
+            $contract_id = $contract ? $contract->id : 'default'; 
 
             $carriere->grade_id = $grade_id; 
             $carriere->augmentation = $request->salaire; 
+            $carriere->contract_id = $contract_id;
             $carriere->save();
         }
 

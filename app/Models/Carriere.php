@@ -26,7 +26,11 @@ class Carriere extends Model
         return $this->belongsTo(Grade::class, 'grade_id', 'id');
     }
 
-
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class, 'contract_id');
+    }
+    
     protected static function boot()
     {
         parent::boot();
