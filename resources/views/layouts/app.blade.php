@@ -10,10 +10,29 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
         @livewireStyles
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <style>
+            .timeline-card::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+                border-radius: 0.75rem;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: -1;
+            }
+            .timeline-card:hover::before {
+                opacity: 1;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">

@@ -55,15 +55,20 @@ class CarriereController extends BaseController
             'contract_id' => $request->contract_id,
         ]);
 
-        return redirect()->route('carrieres.show', $carriere->user_id)->with('success', 'Carrière ajoutée avec succès.');
+        return redirect()->route('users.index', $carriere->user_id)->with('success', 'Carrière ajoutée avec succès.');
     }
 
 
     public function show($user_id)
     {
-        $carrieres = Carriere::where('user_id', $user_id)->get();
+        $carrieres = Carriere::where('user_id', $user_id)
+            ->with(['grade', 'formation', 'contract', 'user']) 
+            ->get();
+
         return view('carrieres.show', compact('carrieres', 'user_id'));
     }
+
+    
 
     public function edit($id)
     {
@@ -89,6 +94,6 @@ class CarriereController extends BaseController
             'contract_id' => $request->contract_id,
         ]);
 
-        return redirect()->route('carrieres.show', $carriere->id)->with('success', 'Carrière mise à jour avec succès.');
+        return redirect()->route('users.index', $carriere->id)->with('success', 'Carrière mise à jour avec succès.');
     }
 }
