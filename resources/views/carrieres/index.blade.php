@@ -1,4 +1,4 @@
-<x-app-layout>
+{{-- <x-app-layout>
     <div class="container mx-auto py-6">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Liste des Carrières</h1>
 
@@ -42,4 +42,4 @@
             {{ $carrieres->links() }}
         </div>
     </div>
-</x-app-layout>
+</x-app-layout> --}}

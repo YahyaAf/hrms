@@ -40,6 +40,6 @@
             </div>
         </form>
 
-        <a href="{{ route('carrieres.index') }}" class="text-blue-600 hover:text-blue-800">Retour à la liste des carrières</a>
+        {{-- <a href="{{ route('carrieres.index') }}" class="text-blue-600 hover:text-blue-800">Retour à la liste des carrières</a> --}}
     </div>
 </x-app-layout>

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Formation;
 use App\Models\User;
+use App\Models\Carriere;
+use App\Models\Formation;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Routing\Controller as BaseController;
 
 class FormationController extends BaseController

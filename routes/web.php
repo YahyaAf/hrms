@@ -38,10 +38,14 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('carrieres')->name('carrieres.')->group(function () {
         Route::get('/', [CarriereController::class, 'index'])->name('index');
-        Route::get('/{id}', [CarriereController::class, 'show'])->name('show');
-        Route::get('/{user_id}/edit', [CarriereController::class, 'edit'])->name('edit');
-        Route::put('/{user_id}', [CarriereController::class, 'update'])->name('update');
+        Route::get('/show/{user_id}', [CarriereController::class, 'show'])->name('show');
+        Route::get('/create/{user_id?}', [CarriereController::class, 'create'])->name('create');
+        Route::post('/', [CarriereController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [CarriereController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [CarriereController::class, 'update'])->name('update');
     });
+    
+    
     Route::get('/historique', [CarriereController::class, 'historique'])->name('carrieres.historique');
 
 

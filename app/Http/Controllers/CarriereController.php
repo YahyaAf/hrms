@@ -6,85 +6,91 @@ use App\Models\Carriere;
 use App\Models\User;
 use App\Models\Grade;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Routing\Controller as BaseController;
 
 class CarriereController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware('can:view-carriere')->only(['index', 'show']);
         $this->middleware('can:create-carriere')->only(['create', 'store']);
         $this->middleware('can:edit-carriere')->only(['edit', 'update']);
-        $this->middleware('can:delete-carriere')->only(['destroy']);
+        $this->middleware('can:view-carriere')->only(['show']);
     }
 
-    public function index()
+    // Afficher le formulaire pour ajouter une nouvelle carrière
+    public function create($user_id = null)
     {
-        $carrieres = Carriere::with('user', 'formation')->paginate(10);
-        return view('carrieres.index', compact('carrieres'));
-    }
+        $users = User::all();
+        $grades = Grade::all();
+        $carriere = null;
 
-    public function show($id)
-    {
-        $carriere = Carriere::with('user', 'formation')->findOrFail($id);
-        return view('carrieres.show', compact('carriere'));
-    }
-
-    public function edit($user_id)
-    {
-        if (!Gate::allows('edit-carriere')) {
-            abort(403);
+        if ($user_id) {
+            // Optionally, you can pass the user if you want to create a career for a specific user
+            $user = User::findOrFail($user_id);
         }
 
-        $carriere = Carriere::where('user_id', $user_id)->firstOrFail();
-        $grades = Grade::all(); 
-
-        return view('carrieres.edit', compact('carriere', 'grades')); 
+        return view('carrieres.create', compact('users', 'grades', 'carriere', 'user'));
     }
 
-    public function update(Request $request, $user_id)
+    // Ajouter une nouvelle carrière et mettre à jour l'utilisateur
+    public function store(Request $request)
     {
         $request->validate([
-            'grade_id' => 'required|exists:grades,id', 
-            'augmentation' => 'required|numeric|min:0', 
+            'user_id' => 'required|exists:users,id',
+            'grade_id' => 'required|exists:grades,id',
+            'augmentation' => 'required|numeric|min:0',
         ]);
 
-        $carriere = Carriere::where('user_id', $user_id)->firstOrFail();
+        // Créer la nouvelle carrière
+        $carriere = Carriere::create([
+            'user_id' => $request->user_id,
+            'grade_id' => $request->grade_id,
+            'augmentation' => $request->augmentation,
+        ]);
+
+        // Mettre à jour l'utilisateur avec le nouveau grade et salaire
+        $user = User::findOrFail($request->user_id);
+        $user->update([
+            'grade_id' => $request->grade_id,
+            'salaire' => $request->augmentation,
+        ]);
+
+        return redirect()->route('carrieres.show', $carriere->id)->with('success', 'Carrière ajoutée avec succès.');
+    }
+
+    // Afficher une carrière spécifique
+    public function show($user_id)
+    {
+        $carrieres = Carriere::where('user_id', $user_id)->get();
+        return view('carrieres.show', compact('carrieres', 'user_id'));
+    }
+
+
+
+
+    // Modifier une carrière existante
+    public function edit($id)
+    {
+        $carriere = Carriere::findOrFail($id);
+        $grades = Grade::all();
+
+        return view('carrieres.edit', compact('carriere', 'grades'));
+    }
+
+    // Mettre à jour une carrière spécifique
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'grade_id' => 'required|exists:grades,id',
+            'augmentation' => 'required|numeric|min:0',
+        ]);
+
+        $carriere = Carriere::findOrFail($id);
         $carriere->update([
-            'grade_id' => $request->grade_id, 
-            'augmentation' => $request->augmentation, 
+            'grade_id' => $request->grade_id,
+            'augmentation' => $request->augmentation,
         ]);
 
-        $user = User::findOrFail($user_id);
-        $user->grade_id = $request->grade_id; 
-        $user->salaire = $request->augmentation; 
-        $user->save(); 
-
-        return redirect()->route('carrieres.index')->with('success', 'Promotion et augmentation mises à jour avec succès.');
-    }
-
-    public function destroy($user_id)
-    {
-        if (!Gate::allows('delete-carriere')) {
-            abort(403);
-        }
-
-        $carriere = Carriere::where('user_id', $user_id)->firstOrFail();
-        $carriere->delete();
-
-        return redirect()->route('carrieres.index')->with('success', 'Carrière supprimée avec succès.');
-    }
-
-    public function historique()
-    {
-        $user = Auth::user();
-        $historique = Carriere::where('user_id', $user->id)
-            ->with('grade') 
-            ->get();
-
-        return view('carrieres.historique', compact('historique'));
+        return redirect()->route('carrieres.show', $carriere->id)->with('success', 'Carrière mise à jour avec succès.');
     }
 }

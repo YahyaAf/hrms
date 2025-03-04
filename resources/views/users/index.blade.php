@@ -146,6 +146,12 @@
                                                     </svg>
                                                 </button>
                                             </form>
+                                            <a href="{{ route('carrieres.create', ['user_id' => $user->id]) }}" class="inline-block bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+                                                Créer une Carrière
+                                            </a>
+                                            <a href="{{ route('carrieres.show', ['user_id' => $user->id]) }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" title="Voir la Carrière">
+                                                Voir la Carrière
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
