@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form action="{{ route('carrieres.update', $carriere->user_id) }}" method="POST">
+        <form action="{{ route('carrieres.update', $carriere->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -30,16 +30,19 @@
             </div>
 
             <div class="mb-4">
-                <label for="salaire" class="block text-sm font-medium text-gray-700">Salaire</label>
+                <label for="augmentation" class="block text-sm font-medium text-gray-700">Augmentation</label>
                 <input type="number" id="augmentation" name="augmentation" value="{{ old('augmentation', $carriere->augmentation) }}" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200" min="0" required>
             </div>
 
-
             <div class="mb-4">
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">Mettre à jour</button>
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
+                    Mettre à jour
+                </button>
             </div>
         </form>
 
-        {{-- <a href="{{ route('carrieres.index') }}" class="text-blue-600 hover:text-blue-800">Retour à la liste des carrières</a> --}}
+        <a href="{{ route('carrieres.show', $carriere->user_id) }}" class="text-blue-600 hover:text-blue-800">
+            Retour aux carrières de {{ $carriere->user->name }}
+        </a>
     </div>
 </x-app-layout>

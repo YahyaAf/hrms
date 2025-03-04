@@ -17,7 +17,6 @@ class CarriereController extends BaseController
         $this->middleware('can:view-carriere')->only(['show']);
     }
 
-    // Afficher le formulaire pour ajouter une nouvelle carrière
     public function create($user_id = null)
     {
         $users = User::all();
@@ -25,14 +24,12 @@ class CarriereController extends BaseController
         $carriere = null;
 
         if ($user_id) {
-            // Optionally, you can pass the user if you want to create a career for a specific user
             $user = User::findOrFail($user_id);
         }
 
         return view('carrieres.create', compact('users', 'grades', 'carriere', 'user'));
     }
 
-    // Ajouter une nouvelle carrière et mettre à jour l'utilisateur
     public function store(Request $request)
     {
         $request->validate([
@@ -41,34 +38,27 @@ class CarriereController extends BaseController
             'augmentation' => 'required|numeric|min:0',
         ]);
 
-        // Créer la nouvelle carrière
         $carriere = Carriere::create([
             'user_id' => $request->user_id,
             'grade_id' => $request->grade_id,
             'augmentation' => $request->augmentation,
         ]);
 
-        // Mettre à jour l'utilisateur avec le nouveau grade et salaire
         $user = User::findOrFail($request->user_id);
         $user->update([
             'grade_id' => $request->grade_id,
             'salaire' => $request->augmentation,
         ]);
 
-        return redirect()->route('carrieres.show', $carriere->id)->with('success', 'Carrière ajoutée avec succès.');
+        return redirect()->route('users.index', $carriere->id)->with('success', 'Carrière ajoutée avec succès.');
     }
 
-    // Afficher une carrière spécifique
     public function show($user_id)
     {
         $carrieres = Carriere::where('user_id', $user_id)->get();
         return view('carrieres.show', compact('carrieres', 'user_id'));
     }
 
-
-
-
-    // Modifier une carrière existante
     public function edit($id)
     {
         $carriere = Carriere::findOrFail($id);
@@ -77,7 +67,6 @@ class CarriereController extends BaseController
         return view('carrieres.edit', compact('carriere', 'grades'));
     }
 
-    // Mettre à jour une carrière spécifique
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -91,6 +80,6 @@ class CarriereController extends BaseController
             'augmentation' => $request->augmentation,
         ]);
 
-        return redirect()->route('carrieres.show', $carriere->id)->with('success', 'Carrière mise à jour avec succès.');
+        return redirect()->route('users.index', $carriere->id)->with('success', 'Carrière mise à jour avec succès.');
     }
 }

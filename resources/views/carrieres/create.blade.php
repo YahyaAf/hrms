@@ -5,10 +5,7 @@
         
         <form action="{{ route('carrieres.store') }}" method="POST">
             @csrf
-
-            <!-- Hidden User ID -->
             <input type="hidden" name="user_id" value="{{ $user->id }}">
-            <!-- Grade Selection -->
             <div class="mb-4">
                 <label for="grade_id" class="block text-sm font-medium text-gray-700">Grade</label>
                 <select id="grade_id" name="grade_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
@@ -22,8 +19,6 @@
                 @enderror
             </div>
 
-            <!-- Salary Input -->
-            <!-- Champ d'augmentation -->
             <div class="mb-4">
                 <label for="augmentation" class="block text-sm font-medium text-gray-700">Augmentation</label>
                 <input type="number" id="augmentation" name="augmentation" value="{{ old('augmentation') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
@@ -32,8 +27,6 @@
                 @enderror
             </div>
 
-
-            <!-- Submit Button -->
             <div class="mb-4">
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     Créer Carrière
