@@ -9,7 +9,7 @@ class Carriere extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['grade_id', 'augmentation', 'user_id', 'formation_id'];
+    protected $fillable = ['grade_id', 'augmentation', 'user_id', 'formation_id','contract_id'];
 
     public function user()
     {

@@ -28,6 +28,18 @@
             </div>
 
             <div class="mb-4">
+                <label for="contract_id" class="block text-sm font-medium text-gray-700">Contrat (optionnel)</label>
+                <select id="contract_id" name="contract_id" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200">
+                    @foreach($contracts as $contract)
+                        <option value="{{ $contract->id }}">
+                            {{ $contract->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            
+
+            <div class="mb-4">
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     Créer Carrière
                 </button>

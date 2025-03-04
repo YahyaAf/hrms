@@ -30,6 +30,17 @@
             </div>
 
             <div class="mb-4">
+                <label for="contract_id" class="block text-sm font-medium text-gray-700">Contrat (optionnel)</label>
+                <select id="contract_id" name="contract_id" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200">
+                    @foreach($contracts as $contract)
+                        <option value="{{ $contract->id }}">
+                            {{ $contract->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-4">
                 <label for="augmentation" class="block text-sm font-medium text-gray-700">Augmentation</label>
                 <input type="number" id="augmentation" name="augmentation" value="{{ old('augmentation', $carriere->augmentation) }}" class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200" min="0" required>
             </div>

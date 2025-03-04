@@ -14,6 +14,7 @@
                             <tr class="bg-gray-200">
                                 <th class="border border-gray-300 px-4 py-2">Grade</th>
                                 <th class="border border-gray-300 px-4 py-2">Augmentation</th>
+                                <th class="border border-gray-300 px-4 py-2">Contract</th>
                                 <th class="border border-gray-300 px-4 py-2">Formation ID</th>
                                 <th class="border border-gray-300 px-4 py-2">Date de Création</th>
                                 <th class="border border-gray-300 px-4 py-2">Actions</th>
@@ -24,6 +25,7 @@
                                 <tr class="border border-gray-300">
                                     <td class="border border-gray-300 px-4 py-2">{{ $carriere->grade_id }}</td>
                                     <td class="border border-gray-300 px-4 py-2">{{ $carriere->augmentation }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $carriere->contract_id }}</td>
                                     <td class="border border-gray-300 px-4 py-2">{{ $carriere->formation_id }}</td>
                                     <td class="border border-gray-300 px-4 py-2">{{ $carriere->created_at->format('d/m/Y') }}</td>
                                     <td class="border border-gray-300 px-4 py-2">
