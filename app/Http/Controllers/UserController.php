@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Role;
+use Carbon\Carbon;
 use Illuminate\Routing\Controller as BaseController;
 
 class UserController extends BaseController
@@ -72,8 +73,24 @@ class UserController extends BaseController
         $carriere->augmentation = $request->salaire;
         $carriere->save();
 
+
+        $date_recrutement = Carbon::parse($user->date_de_recrutement);
+        $annees_travaillees = $date_recrutement->diffInYears(Carbon::now());
+
+        if ($annees_travaillees < 1) {
+            $mois_travailles = $date_recrutement->diffInMonths(Carbon::now());
+            $solde_conges = $mois_travailles * 1.5;
+        } else {
+            $solde_conges = 18 + (($annees_travaillees - 1) * 0.5);
+            $solde_conges += ($annees_travaillees - 1) * 18;
+        }
+
+        $user->solde_conges = round($solde_conges, 1); 
+        $user->save();
+
         return redirect()->route('users.index')->with('success', 'Utilisateur créé avec succès.');
     }
+
 
     public function show(User $user)
     {
@@ -122,8 +139,18 @@ class UserController extends BaseController
             $carriere->save();
         }
 
+        $date_recrutement = Carbon::parse($user->date_de_recrutement);
+        $annees_travaillees = $date_recrutement->diffInYears(Carbon::now());
+
+        $solde_conges = 18 + (($annees_travaillees - 1) * 0.5); 
+        $solde_conges += $annees_travaillees * 18;  
+
+        $user->solde_conges = round($solde_conges, 1); 
+        $user->save();
+
         return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
+
 
     public function destroy(User $user)
     {
