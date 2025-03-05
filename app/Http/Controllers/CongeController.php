@@ -24,6 +24,16 @@ class CongeController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'date_debut' => ['required', 'date', 'after_or_equal:' . now()->addWeek()->format('Y-m-d')],
+            'date_fin' => ['required', 'date', 'after_or_equal:date_debut'],
+            'type_conge' => ['required', 'string'],
+            'motif' => ['nullable', 'string'],
+        ], [
+            'date_debut.after_or_equal' => 'Vous devez choisir une date de début d\'au moins une semaine à l\'avance.',
+            'date_fin.after_or_equal' => 'La date de fin doit être après la date de début.',
+        ]);
+
         Conge::create([
             'user_id' => auth()->id(),
             'date_debut' => $request->date_debut,
@@ -36,6 +46,7 @@ class CongeController extends Controller
 
         return redirect()->route('conges.index')->with('success', 'Demande de congé soumise avec succès.');
     }
+
 
     public function show($id)
     {
