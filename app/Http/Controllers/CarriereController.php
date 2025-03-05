@@ -96,4 +96,16 @@ class CarriereController extends BaseController
 
         return redirect()->route('users.index', $carriere->id)->with('success', 'Carrière mise à jour avec succès.');
     }
+
+    public function historique()
+    {
+        $user = auth()->user(); 
+        
+        $carrieres = Carriere::where('user_id', $user->id)
+            ->with(['grade', 'formation', 'contract', 'user'])
+            ->get();
+
+        return view('carrieres.historique', compact('carrieres', 'user'));
+    }
+
 }

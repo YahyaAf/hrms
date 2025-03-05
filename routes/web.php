@@ -43,7 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [CarriereController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [CarriereController::class, 'edit'])->name('edit');
         Route::put('/{id}', [CarriereController::class, 'update'])->name('update');
+        Route::get('/historique', [CarriereController::class, 'historique'])->name('historique')->middleware('auth');
     });
+    
     
     
     Route::get('/historique', [CarriereController::class, 'historique'])->name('carrieres.historique');

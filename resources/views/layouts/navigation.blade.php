@@ -43,11 +43,6 @@
                             {{ __('Formations') }}
                         </x-nav-link>
                     @endcan
-                    @can('view-carriere')
-                        <x-nav-link :href="route('carrieres.index')" :active="request()->routeIs('carrieres.*')" class="text-white hover:text-indigo-100 font-medium">
-                            {{ __('Carrieres') }}
-                        </x-nav-link>
-                    @endcan
                     <x-nav-link :href="route('carrieres.historique')" :active="request()->routeIs('carrieres.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Historique') }}
                     </x-nav-link>
