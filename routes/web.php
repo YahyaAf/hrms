@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DepartementController;
-use App\Http\Controllers\EmploiController;
-use App\Http\Controllers\ContractController;
-use App\Http\Controllers\GradeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\FormationController;
-use App\Http\Controllers\CarriereController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CongeController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\EmploiController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CarriereController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\FormationController;
 use App\Http\Controllers\HierarchyController;
+use App\Http\Controllers\DepartementController;
 
 
 
@@ -45,13 +46,21 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', [CarriereController::class, 'update'])->name('update');
         Route::get('/historique', [CarriereController::class, 'historique'])->name('historique')->middleware('auth');
     });
-    
-    
-    
+
     Route::get('/historique', [CarriereController::class, 'historique'])->name('carrieres.historique');
 
-
     Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
+
+    Route::prefix('conges')->name('conges.')->group(function () {
+        Route::get('/', [CongeController::class, 'index'])->name('index');
+        Route::get('/create', [CongeController::class, 'create'])->name('create');
+        Route::post('/', [CongeController::class, 'store'])->name('store');
+        Route::get('/{id}', [CongeController::class, 'show'])->name('show');
+        Route::put('/{id}/manager', [CongeController::class, 'validateByManager'])->name('validate.manager');
+        Route::put('/{id}/rh', [CongeController::class, 'validateByRH'])->name('validate.rh');
+        Route::get('/solde', [CongeController::class, 'soldeConges'])->name('solde');
+    });
+    
 
 
 });
