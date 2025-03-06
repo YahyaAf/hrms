@@ -15,4 +15,9 @@ class Conge extends Model
         'motif',
         'statut',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

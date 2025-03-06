@@ -82,7 +82,7 @@ class UserController extends BaseController
             $solde_conges = $mois_travailles * 1.5;
         } else {
             $solde_conges = 18 + (($annees_travaillees - 1) * 0.5);
-            $solde_conges += ($annees_travaillees - 1) * 18;
+            // $solde_conges += ($annees_travaillees - 1) * 18;
         }
 
         $user->solde_conges = round($solde_conges, 1); 
@@ -143,7 +143,7 @@ class UserController extends BaseController
         $annees_travaillees = $date_recrutement->diffInYears(Carbon::now());
 
         $solde_conges = 18 + (($annees_travaillees - 1) * 0.5); 
-        $solde_conges += $annees_travaillees * 18;  
+        // $solde_conges += $annees_travaillees * 18;  
 
         $user->solde_conges = round($solde_conges, 1); 
         $user->save();

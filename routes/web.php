@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [CongeController::class, 'create'])->name('create');
         Route::post('/', [CongeController::class, 'store'])->name('store');
         Route::get('/{id}', [CongeController::class, 'show'])->name('show');
+        Route::get('/conges/gestion', [CongeController::class, 'gestionConges'])->name('gestion');
+        Route::patch('/{id}/accepter', [CongeController::class, 'accepterConge'])->name('accepter');
     });
     
     

@@ -62,4 +62,40 @@ class CongeController extends Controller
         return view('conges.solde', compact('user'));
     }
 
+    public function gestionConges()
+    {
+        $conges = Conge::with('user')->get();
+
+        return view('conges.conge', compact('conges'));
+    }
+
+
+
+
+    public function accepterConge($id)
+    {
+        $conge = Conge::findOrFail($id);
+        if (
+            (auth()->user()->role === 'manager' && auth()->user()->departement_id === $conge->user->departement_id) ||
+            (auth()->user()->role === 'rh' && auth()->user()->departement_id === $conge->user->departement_id)
+        ) {
+            if (auth()->user()->role === 'manager') {
+                $conge->update(['validation_manager' => true]);
+            }
+
+            if (auth()->user()->role === 'rh') {
+                $conge->update(['validation_rh' => true]);
+            }
+            if ($conge->validation_manager && $conge->validation_rh) {
+                $conge->update(['statut' => 'Approuvé']);
+            }
+
+            return redirect()->back()->with('success', 'Le congé a été validé.');
+        }
+
+        return redirect()->back()->with('error', 'Vous n\'avez pas l\'autorisation.');
+    }
+
+
+
 }
