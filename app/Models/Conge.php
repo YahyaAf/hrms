@@ -14,6 +14,7 @@ class Conge extends Model
         'type_conge',
         'motif',
         'statut',
+        'validation_manager',
     ];
 
     public function user()

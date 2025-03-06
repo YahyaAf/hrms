@@ -63,7 +63,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/conges/{id}/reject-manager', [CongeController::class, 'rejectManager'])->name('rejectManager');
         Route::post('/conges/{id}/reject-rh', [CongeController::class, 'rejectRh'])->name('rejectRh');
 
-
     });
     
     

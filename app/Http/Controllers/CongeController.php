@@ -35,6 +35,9 @@ class CongeController extends Controller
             'date_fin.after_or_equal' => 'La date de fin doit être après la date de début.',
         ]);
 
+
+        $validation_manager = auth()->user()->hasRole('manager') ? true : false;
+
         Conge::create([
             'user_id' => auth()->id(),
             'date_debut' => $request->date_debut,
@@ -43,10 +46,13 @@ class CongeController extends Controller
             'type_conge' => $request->type_conge,
             'motif' => $request->motif,
             'statut' => 'En attente',
+            'validation_manager' => true, 
+            'validation_rh' => false, 
         ]);
-
+        
         return redirect()->route('conges.index')->with('success', 'Demande de congé soumise avec succès.');
     }
+
 
 
     public function show($id)

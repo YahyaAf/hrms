@@ -67,10 +67,8 @@
                                 required>
                                 <option value="" disabled selected>Sélectionnez un type de congé</option>
                                 <option value="vacances">Congés payés</option>
-                                <option value="RTT">RTT</option>
                                 <option value="maladie">Maladie</option>
                                 <option value="maternité">Maternité/Paternité</option>
-                                <option value="familial">Événement familial</option>
                                 <option value="autre">Autre</option>
                             </select>
                             <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
