@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Conge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\CarbonPeriod;
 
 
 
@@ -35,6 +36,18 @@ class CongeController extends Controller
             'date_fin.after_or_equal' => 'La date de fin doit être après la date de début.',
         ]);
 
+        $start = Carbon::parse($request->date_debut);
+        $end = Carbon::parse($request->date_fin);
+
+        $jours_demandes = 0;
+        $period = CarbonPeriod::create($start, $end);
+
+        foreach ($period as $date) {
+            if (!$date->isWeekend()) { 
+                $jours_demandes++;
+            }
+        }
+
 
         $validation_manager = auth()->user()->hasRole('manager') ? true : false;
 
@@ -42,7 +55,7 @@ class CongeController extends Controller
             'user_id' => auth()->id(),
             'date_debut' => $request->date_debut,
             'date_fin' => $request->date_fin,
-            'jours_demandes' => Carbon::parse($request->date_debut)->diffInDays(Carbon::parse($request->date_fin)) + 1,
+            'jours_demandes' => $jours_demandes, 
             'type_conge' => $request->type_conge,
             'motif' => $request->motif,
             'statut' => 'En attente',
