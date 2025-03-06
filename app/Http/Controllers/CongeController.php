@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Conge;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -55,7 +56,10 @@ class CongeController extends Controller
     }
 
     public function soldeConges()
-    {
-        return view('conges.solde');
-    }
+{
+    $user = Auth::user();
+
+    return view('conges.solde', compact('user'));
+}
+
 }
