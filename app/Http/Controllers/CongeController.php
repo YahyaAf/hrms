@@ -46,7 +46,7 @@ class CongeController extends Controller
             'type_conge' => $request->type_conge,
             'motif' => $request->motif,
             'statut' => 'En attente',
-            'validation_manager' => true, 
+            'validation_manager' => $validation_manager, 
             'validation_rh' => false, 
         ]);
         
