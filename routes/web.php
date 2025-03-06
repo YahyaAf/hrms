@@ -58,7 +58,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [CongeController::class, 'store'])->name('store');
         Route::get('/{id}', [CongeController::class, 'show'])->name('show');
         Route::get('/conges/gestion', [CongeController::class, 'gestionConges'])->name('gestion');
-        Route::patch('/{id}/accepter', [CongeController::class, 'accepterConge'])->name('accepter');
+        Route::post('/conges/{id}/validate-manager', [CongeController::class, 'validateManager'])->name('validateManager');
+        Route::post('/conges/{id}/validate-rh', [CongeController::class, 'validateRh'])->name('validateRh');
+        Route::post('/conges/{id}/reject-manager', [CongeController::class, 'rejectManager'])->name('rejectManager');
+        Route::post('/conges/{id}/reject-rh', [CongeController::class, 'rejectRh'])->name('rejectRh');
+
+
     });
     
     

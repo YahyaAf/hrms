@@ -64,37 +64,77 @@ class CongeController extends Controller
 
     public function gestionConges()
     {
-        $conges = Conge::with('user')->get();
+        $conges = Conge::with(['user'])
+            ->where('statut', 'En attente') 
+            ->get();
 
         return view('conges.conge', compact('conges'));
     }
 
 
-
-
-    public function accepterConge($id)
+    public function validateManager($id)
     {
         $conge = Conge::findOrFail($id);
-        if (
-            (auth()->user()->role === 'manager' && auth()->user()->departement_id === $conge->user->departement_id) ||
-            (auth()->user()->role === 'rh' && auth()->user()->departement_id === $conge->user->departement_id)
-        ) {
-            if (auth()->user()->role === 'manager') {
-                $conge->update(['validation_manager' => true]);
-            }
 
-            if (auth()->user()->role === 'rh') {
-                $conge->update(['validation_rh' => true]);
-            }
+        if (auth()->user()->hasRole('manager') && $conge->validation_manager == false) {
+            $conge->validation_manager = true;
+            $conge->save();
+            
             if ($conge->validation_manager && $conge->validation_rh) {
-                $conge->update(['statut' => 'Approuvé']);
+                $conge->statut = 'Approuvé';
+                $conge->save();
             }
-
-            return redirect()->back()->with('success', 'Le congé a été validé.');
         }
 
-        return redirect()->back()->with('error', 'Vous n\'avez pas l\'autorisation.');
+        return redirect()->route('conges.gestion')->with('success', 'Validation Manager mise à jour avec succès.');
     }
+
+    public function validateRh($id)
+    {
+        $conge = Conge::findOrFail($id);
+
+        if (auth()->user()->hasRole('RH') && $conge->validation_rh == false) {
+            $conge->validation_rh = true;
+            $conge->save();
+            
+            if ($conge->validation_manager && $conge->validation_rh) {
+                $conge->statut = 'Approuvé';
+                $conge->save();
+            }
+        }
+
+        return redirect()->route('conges.gestion')->with('success', 'Validation RH mise à jour avec succès.');
+    }
+
+    public function rejectManager($id)
+    {
+        $conge = Conge::findOrFail($id);
+
+        if (auth()->user()->hasRole('manager')) {
+            $conge->validation_manager = false;
+            $conge->statut = 'Rejeté';
+            $conge->save();
+        }
+
+        return redirect()->route('conges.gestion')->with('success', 'Demande de congé rejetée par le manager.');
+    }
+
+    public function rejectRh($id)
+    {
+        $conge = Conge::findOrFail($id);
+
+        if (auth()->user()->hasRole('RH')) {
+            $conge->validation_rh = false;
+            $conge->statut = 'Rejeté';
+            $conge->save();
+        }
+
+        return redirect()->route('conges.gestion')->with('success', 'Demande de congé rejetée par RH.');
+    }
+
+
+
+
 
 
 
