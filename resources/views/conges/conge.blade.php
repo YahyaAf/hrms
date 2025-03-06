@@ -67,7 +67,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    @if ($conge->validation_manager == false && auth()->user()->hasRole('manager'))
+                                    @if ($conge->validation_manager == false && auth()->user()->hasRole('manager') && auth()->user()->departement_id == $conge->user->departement_id)
                                         <div class="flex space-x-2">
                                             <form action="{{ route('conges.validateManager', $conge->id) }}" method="POST">
                                                 @csrf
@@ -88,7 +88,7 @@
                                                 </button>
                                             </form>
                                         </div>
-                                    @elseif ($conge->validation_rh == false && auth()->user()->hasRole('RH'))
+                                    @elseif ($conge->validation_rh == false && auth()->user()->hasRole('RH') && auth()->user()->departement_id == $conge->user->departement_id)
                                         <div class="flex space-x-2">
                                             <form action="{{ route('conges.validateRh', $conge->id) }}" method="POST">
                                                 @csrf
@@ -110,7 +110,7 @@
                                             </form>
                                         </div>
                                     @endif
-                                </td>
+                                </td>   
                             </tr>
                         @endforeach
                     </tbody>

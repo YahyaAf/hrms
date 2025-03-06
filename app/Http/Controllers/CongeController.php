@@ -81,36 +81,51 @@ class CongeController extends Controller
     public function validateManager($id)
     {
         $conge = Conge::findOrFail($id);
+        $user = auth()->user(); 
 
-        if (auth()->user()->hasRole('manager') && $conge->validation_manager == false) {
-            $conge->validation_manager = true;
-            $conge->save();
-            
-            if ($conge->validation_manager && $conge->validation_rh) {
-                $conge->statut = 'Approuvé';
+        if ($user->hasRole('manager') && $conge->validation_manager == false) {
+            if ($user->departement_id == $conge->user->departement_id) {
+                $conge->validation_manager = true;
                 $conge->save();
+                
+                if ($conge->validation_manager && $conge->validation_rh) {
+                    $conge->statut = 'Approuvé';
+                    $conge->save();
+                }
+
+                return redirect()->route('conges.gestion')->with('success', 'Validation Manager mise à jour avec succès.');
+            } else {
+                return redirect()->route('conges.gestion')->with('error', 'Vous ne pouvez pas valider cette demande, l\'employé n\'est pas dans votre département.');
             }
         }
 
-        return redirect()->route('conges.gestion')->with('success', 'Validation Manager mise à jour avec succès.');
+        return redirect()->route('conges.gestion')->with('error', 'Accès non autorisé.');
     }
 
     public function validateRh($id)
     {
         $conge = Conge::findOrFail($id);
+        $user = auth()->user(); 
 
-        if (auth()->user()->hasRole('RH') && $conge->validation_rh == false) {
-            $conge->validation_rh = true;
-            $conge->save();
-            
-            if ($conge->validation_manager && $conge->validation_rh) {
-                $conge->statut = 'Approuvé';
+        if ($user->hasRole('RH') && $conge->validation_rh == false) {
+            if ($user->departement_id == $conge->user->departement_id) {
+                $conge->validation_rh = true;
                 $conge->save();
+                
+                if ($conge->validation_manager && $conge->validation_rh) {
+                    $conge->statut = 'Approuvé';
+                    $conge->save();
+                }
+
+                return redirect()->route('conges.gestion')->with('success', 'Validation RH mise à jour avec succès.');
+            } else {
+                return redirect()->route('conges.gestion')->with('error', 'Vous ne pouvez pas valider cette demande, l\'employé n\'est pas dans votre département.');
             }
         }
 
-        return redirect()->route('conges.gestion')->with('success', 'Validation RH mise à jour avec succès.');
+        return redirect()->route('conges.gestion')->with('error', 'Accès non autorisé.');
     }
+
 
     public function rejectManager($id)
     {
@@ -137,11 +152,5 @@ class CongeController extends Controller
 
         return redirect()->route('conges.gestion')->with('success', 'Demande de congé rejetée par RH.');
     }
-
-
-
-
-
-
 
 }
