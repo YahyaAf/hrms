@@ -52,14 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
 
     Route::prefix('conges')->name('conges.')->group(function () {
+        Route::get('/solde', [CongeController::class, 'soldeConges'])->name('solde'); 
         Route::get('/', [CongeController::class, 'index'])->name('index');
         Route::get('/create', [CongeController::class, 'create'])->name('create');
         Route::post('/', [CongeController::class, 'store'])->name('store');
         Route::get('/{id}', [CongeController::class, 'show'])->name('show');
-        Route::put('/{id}/manager', [CongeController::class, 'validateByManager'])->name('validate.manager');
-        Route::put('/{id}/rh', [CongeController::class, 'validateByRH'])->name('validate.rh');
-        Route::get('/solde', [CongeController::class, 'soldeConges'])->name('solde');
     });
+    
     
 
 

@@ -49,6 +49,10 @@
                     <x-nav-link :href="route('conges.index')" :active="request()->routeIs('conges.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Conges') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('conges.solde')" :active="request()->routeIs('conges.solde')" class="text-white hover:text-indigo-100 font-medium">
+                        {{ __('Solde') }}
+                    </x-nav-link>
+                    
                     <x-nav-link :href="route('hierarchy.index')" :active="request()->routeIs('hierarchy.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Hierarchy') }}
                     </x-nav-link>
