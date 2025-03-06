@@ -1,16 +1,17 @@
 <x-app-layout>
-    <div class="container mx-auto mt-5">
-        <h2 class="text-2xl font-bold mb-4">Solde des Congés</h2>
+    <div class="max-w-lg mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-3xl font-bold text-center text-indigo-600 mb-6">Solde des Congés</h2>
 
-        <table class="min-w-full bg-white border border-gray-200 rounded">
-            <tr>
-                <td class="py-2 px-4 font-bold">Nom:</td>
-                <td class="py-2 px-4">{{ $user->name }}</td>
-            </tr>
-            <tr>
-                <td class="py-2 px-4 font-bold">Solde de Congés:</td>
-                <td class="py-2 px-4">{{ $user->solde_conges }} jours</td>
-            </tr>
-        </table>
+        <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
+            <div class="flex justify-between py-2 border-b border-gray-300">
+                <span class="font-semibold text-gray-700">Nom :</span>
+                <span class="text-gray-900">{{ $user->name }}</span>
+            </div>
+
+            <div class="flex justify-between py-2">
+                <span class="font-semibold text-gray-700">Solde de Congés :</span>
+                <span class="text-green-600 font-bold">{{ $user->solde_conges }} jours</span>
+            </div>
+        </div>
     </div>
 </x-app-layout>

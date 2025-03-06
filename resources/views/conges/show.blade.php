@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <td class="py-2 px-4 font-bold">Statut:</td>
-                <td class="py-2 px-4">{{ $conge->status }}</td>
+                <td class="py-2 px-4">{{ $conge->statut }}</td>
             </tr>
         </table>
 

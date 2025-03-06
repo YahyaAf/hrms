@@ -56,10 +56,10 @@ class CongeController extends Controller
     }
 
     public function soldeConges()
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    return view('conges.solde', compact('user'));
-}
+        return view('conges.solde', compact('user'));
+    }
 
 }
