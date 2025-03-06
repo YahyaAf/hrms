@@ -96,14 +96,13 @@ class CongeController extends Controller
         $conge = Conge::findOrFail($id);
         $user = auth()->user(); 
 
-        if ($user->hasRole('manager') && $conge->validation_manager == false) {
+        if ($user->hasRole('manager') && !$conge->validation_manager) {
             if ($user->departement_id == $conge->user->departement_id) {
                 $conge->validation_manager = true;
                 $conge->save();
                 
                 if ($conge->validation_manager && $conge->validation_rh) {
-                    $conge->statut = 'Approuvé';
-                    $conge->save();
+                    $this->approuverConge($conge);
                 }
 
                 return redirect()->route('conges.gestion')->with('success', 'Validation Manager mise à jour avec succès.');
@@ -115,19 +114,19 @@ class CongeController extends Controller
         return redirect()->route('conges.gestion')->with('error', 'Accès non autorisé.');
     }
 
+
     public function validateRh($id)
     {
         $conge = Conge::findOrFail($id);
         $user = auth()->user(); 
 
-        if ($user->hasRole('RH') && $conge->validation_rh == false) {
+        if ($user->hasRole('RH') && !$conge->validation_rh) {
             if ($user->departement_id == $conge->user->departement_id) {
                 $conge->validation_rh = true;
                 $conge->save();
-                
+
                 if ($conge->validation_manager && $conge->validation_rh) {
-                    $conge->statut = 'Approuvé';
-                    $conge->save();
+                    $this->approuverConge($conge);
                 }
 
                 return redirect()->route('conges.gestion')->with('success', 'Validation RH mise à jour avec succès.');
@@ -138,6 +137,23 @@ class CongeController extends Controller
 
         return redirect()->route('conges.gestion')->with('error', 'Accès non autorisé.');
     }
+
+    private function approuverConge($conge)
+    {
+        $user = $conge->user;
+
+        if ($user->solde_conges >= $conge->jours_demandes) {
+            $user->solde_conges -= $conge->jours_demandes; 
+            $user->save();
+
+            $conge->statut = 'Approuvé';
+            $conge->save();
+        } else {
+            return redirect()->route('conges.gestion')->with('error', 'Solde de congés insuffisant.');
+        }
+    }
+
+
 
 
     public function rejectManager($id)
