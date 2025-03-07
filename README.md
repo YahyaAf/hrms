@@ -1,66 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+public function run()
+    {
+        // Assign permissions to roles
+        $rolePermissions = [
+            'admin' => array_merge(
+                ['create-departement', 'edit-departement', 'delete-departement', 'view-departement'],
+                ['create-emplois', 'edit-emplois', 'delete-emplois', 'view-emplois'],
+                ['create-grades', 'edit-grades', 'delete-grades', 'view-grades'],
+                ['create-contracts', 'edit-contracts', 'delete-contracts', 'view-contracts'],
+                ['create-users', 'edit-users', 'delete-users', 'view-users'],
+                ['create-carriere', 'edit-carriere', 'delete-carriere', 'view-carriere'],
+                ['view-formations', 'create-formations', 'edit-formations', 'delete-formations']
+            ),
+            'rh' => [
+                'create-contracts', 'edit-contracts', 'delete-contracts', 'view-contracts',
+                'create-users', 'edit-users', 'delete-users', 'view-users',
+                'create-carriere', 'edit-carriere', 'delete-carriere', 'view-carriere',
+                'gestion-conge', 'rh-validate-conge', 'rh-reject-conge',
+                'gestion-recuperation', 'validate-recuperation', 'reject-recuperation'
+            ],
+            'manager' => [
+                'view-formations', 'create-formations', 'edit-formations', 'delete-formations',
+                'view-conge', 'create-conge', 'view-solde-conge', 'gestion-conge',
+                'manager-validate-conge', 'manager-reject-conge',
+                'view-recuperation', 'create-recuperation'
+            ],
+            'employe' => [
+                'view-conge', 'create-conge', 'view-solde-conge',
+                'view-recuperation', 'create-recuperation'
+            ]
+        ];
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+        foreach ($rolePermissions as $role => $permissions) {
+            $roleInstance = Role::findByName($role);
+            if ($roleInstance) {
+                $roleInstance->syncPermissions($permissions);
+            }
+        }
+    }
 
-## About Laravel
+    voila les routes : 
+    Route::get('/', function () {
+    return view('welcome');
+});
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    Route::resource('departements',DepartementController::class);
+    Route::resource('emplois',EmploiController::class);
+    Route::resource('contracts', ContractController::class);
+    Route::resource('grades', GradeController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/get-emplois/{departement_id}', [UserController::class, 'getEmplois']);
+    Route::resource('formations', FormationController::class);
+    
 
-## Learning Laravel
+    Route::prefix('carrieres')->name('carrieres.')->group(function () {
+        Route::get('/', [CarriereController::class, 'index'])->name('index');
+        Route::get('/show/{user_id}', [CarriereController::class, 'show'])->name('show');
+        Route::get('/create/{user_id?}', [CarriereController::class, 'create'])->name('create');
+        Route::post('/', [CarriereController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [CarriereController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [CarriereController::class, 'update'])->name('update');
+        Route::get('/historique', [CarriereController::class, 'historique'])->name('historique')->middleware('auth');
+    });
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    Route::get('/historique', [CarriereController::class, 'historique'])->name('carrieres.historique');
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Route::prefix('conges')->name('conges.')->group(function () {
+        Route::get('/solde', [CongeController::class, 'soldeConges'])->name('solde'); 
+        Route::get('/', [CongeController::class, 'index'])->name('index');
+        Route::get('/gestion', [CongeController::class, 'gestionConges'])->name('gestion');
+        Route::get('/create', [CongeController::class, 'create'])->name('create');
+        Route::post('/', [CongeController::class, 'store'])->name('store');
+        Route::get('/{id}', [CongeController::class, 'show'])->name('show');
+        Route::post('/{id}/validate-manager', [CongeController::class, 'validateManager'])->name('validateManager');
+        Route::post('/{id}/validate-rh', [CongeController::class, 'validateRh'])->name('validateRh');
+        Route::post('/{id}/reject-manager', [CongeController::class, 'rejectManager'])->name('rejectManager');
+        Route::post('/{id}/reject-rh', [CongeController::class, 'rejectRh'])->name('rejectRh');
+    });
+    
 
-## Laravel Sponsors
+    Route::prefix('recuperations')->name('recuperations.')->group(function () {
+        Route::get('/solde', [RecuperationController::class, 'soldeRecuperations'])->name('solde');
+        Route::get('/gestion', [RecuperationController::class, 'gestionRecuperations'])->name('gestion');
+        Route::get('/', [RecuperationController::class, 'index'])->name('index');
+        Route::get('/create', [RecuperationController::class, 'create'])->name('create');
+        Route::post('/', [RecuperationController::class, 'store'])->name('store');
+        Route::get('/{id}', [RecuperationController::class, 'show'])->name('show');    
+        Route::put('/{id}/approve', [RecuperationController::class, 'validateRh'])->name('validateRh');
+        Route::put('/{id}/reject', [RecuperationController::class, 'rejectRh'])->name('rejectRh');
+    });
+    
+    
+    
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+});

@@ -167,10 +167,6 @@ class CongeController extends BaseController
         }
     }
 
-
-
-
-
     public function rejectManager($id)
     {
         $conge = Conge::findOrFail($id);
