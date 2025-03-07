@@ -35,18 +35,20 @@
                             <td class="px-4 py-2">{{ $recuperation->nombre_jours }}</td>
                             <td class="px-4 py-2">{{ $recuperation->statut }}</td>
                             <td class="px-4 py-2">
-                                <form action="{{ route('recuperations.validateRh', $recuperation->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="bg-green-500 text-white py-1 px-4 rounded-md hover:bg-green-600">Accepter</button>
-                                </form>
-                                
-                                <form action="{{ route('recuperations.rejectRh', $recuperation->id) }}" method="POST" class="inline-block ml-2">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="bg-red-500 text-white py-1 px-4 rounded-md hover:bg-red-600">Refuser</button>
-                                </form>
-                            </td>
+                                @if(auth()->user()->hasRole('RH') && auth()->user()->departement_id == $recuperation->user->departement_id)
+                                    <form action="{{ route('recuperations.validateRh', $recuperation->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="bg-green-500 text-white py-1 px-4 rounded-md hover:bg-green-600">Accepter</button>
+                                    </form>
+                            
+                                    <form action="{{ route('recuperations.rejectRh', $recuperation->id) }}" method="POST" class="inline-block ml-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="bg-red-500 text-white py-1 px-4 rounded-md hover:bg-red-600">Refuser</button>
+                                    </form>
+                                @endif
+                            </td>                            
                         </tr>
                     @endforeach
                 </tbody>

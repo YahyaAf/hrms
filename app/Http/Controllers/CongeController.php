@@ -149,9 +149,13 @@ class CongeController extends Controller
             $conge->statut = 'Approuvé';
             $conge->save();
         } else {
-            return redirect()->route('conges.gestion')->with('error', 'Solde de congés insuffisant.');
+            $conge->statut = 'Rejeté';
+            $conge->save();
+
+            return redirect()->route('conges.gestion')->with('error', 'Solde de congés insuffisant, demande rejetée.');
         }
     }
+
 
 
 

@@ -79,17 +79,36 @@ class RecuperationController extends Controller
     public function validateRh($id)
     {
         $recuperation = Recuperation::findOrFail($id);
-        $user = Auth::user();
+        $user = Auth::user(); 
 
-        if ($user->hasRole('RH')) {
-            $recuperation->validation_rh = true;
-            $recuperation->statut = 'Approuvé';
-            $recuperation->save();
-
-            return redirect()->route('recuperations.gestion')->with('success', 'Demande de récupération approuvée.');
+        if (!$user->hasRole('RH')) {
+            return redirect()->route('recuperations.gestion')->with('error', 'Accès non autorisé.');
         }
 
-        return redirect()->route('recuperations.gestion')->with('error', 'Accès non autorisé.');
+        $recuperation->validation_rh = true;
+        $recuperation->save(); 
+        $this->approuverRecuperation($recuperation);
+        
+
+        return redirect()->route('recuperations.gestion')->with('success', 'Validation RH mise à jour avec succès.');
+    }
+
+    private function approuverRecuperation($recuperation)
+    {
+        $user = $recuperation->user; 
+        if ($user->solde_recuperation >= $recuperation->nombre_jours) {
+            $user->solde_recuperation -= $recuperation->nombre_jours;
+            $user->save(); 
+            $recuperation->statut = 'Approuvé';
+            $recuperation->save(); 
+
+            return redirect()->route('recuperations.gestion')->with('success', 'Demande de récupération approuvée.');
+        } else {
+            $recuperation->statut = 'Rejeté';
+            $recuperation->save(); 
+
+            return redirect()->route('recuperations.gestion')->with('error', 'Solde insuffisant, demande de récupération rejetée.');
+        }
     }
 
     public function rejectRh($id)

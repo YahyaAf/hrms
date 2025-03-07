@@ -4,6 +4,12 @@
             <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
                 <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">Mes Demandes de Congé</span>
             </h1>
+            <a href="{{ route('conges.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Nouvelle Demande
+            </a>
         </div>
 
         @if(session('success'))
