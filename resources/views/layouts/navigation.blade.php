@@ -53,8 +53,11 @@
                         {{ __('Solde') }}
                     </x-nav-link>
                     <x-nav-link :href="route('conges.gestion')" :active="request()->routeIs('conges.gestion')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Congé Details') }}
+                        {{ __('Gestion de Congé') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('recuperations.gestion')" :active="request()->routeIs('recuperations.gestion')" class="text-white hover:text-indigo-100 font-medium">
+                        {{ __('Recuperation') }}
+                    </x-nav-link>                    
                     <x-nav-link :href="route('hierarchy.index')" :active="request()->routeIs('hierarchy.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Hierarchy') }}
                     </x-nav-link>

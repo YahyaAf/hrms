@@ -67,14 +67,16 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('recuperations')->name('recuperations.')->group(function () {
-        Route::get('/solde', [RecuperationController::class, 'soldeRecuperations'])->name('solde'); 
+        Route::get('/solde', [RecuperationController::class, 'soldeRecuperations'])->name('solde');
+        Route::get('/gestion', [RecuperationController::class, 'gestionRecuperations'])->name('gestion');
         Route::get('/', [RecuperationController::class, 'index'])->name('index');
         Route::get('/create', [RecuperationController::class, 'create'])->name('create');
         Route::post('/', [RecuperationController::class, 'store'])->name('store');
-        Route::get('/{id}', [RecuperationController::class, 'show'])->name('show');
+        Route::get('/{id}', [RecuperationController::class, 'show'])->name('show');    
         Route::put('/{id}/approve', [RecuperationController::class, 'validateRh'])->name('validateRh');
         Route::put('/{id}/reject', [RecuperationController::class, 'rejectRh'])->name('rejectRh');
     });
+    
     
     
 

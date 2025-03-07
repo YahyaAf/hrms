@@ -67,6 +67,15 @@ class RecuperationController extends Controller
         return view('recuperations.solde', compact('user'));
     }
 
+    public function gestionRecuperations()
+    {
+        $recuperations = Recuperation::with(['user'])
+            ->where('statut', 'En attente') 
+            ->get();
+
+        return view('recuperations.recuperation', compact('recuperations'));
+    }
+
     public function validateRh($id)
     {
         $recuperation = Recuperation::findOrFail($id);
@@ -77,10 +86,10 @@ class RecuperationController extends Controller
             $recuperation->statut = 'Approuvé';
             $recuperation->save();
 
-            return redirect()->route('recuperations.index')->with('success', 'Demande de récupération approuvée.');
+            return redirect()->route('recuperations.gestion')->with('success', 'Demande de récupération approuvée.');
         }
 
-        return redirect()->route('recuperations.index')->with('error', 'Accès non autorisé.');
+        return redirect()->route('recuperations.gestion')->with('error', 'Accès non autorisé.');
     }
 
     public function rejectRh($id)
@@ -93,10 +102,10 @@ class RecuperationController extends Controller
             $recuperation->statut = 'Rejeté';
             $recuperation->save();
 
-            return redirect()->route('recuperations.index')->with('success', 'Demande de récupération rejetée.');
+            return redirect()->route('recuperations.gestion')->with('success', 'Demande de récupération rejetée.');
         }
 
-        return redirect()->route('recuperations.index')->with('error', 'Accès non autorisé.');
+        return redirect()->route('recuperations.gestion')->with('error', 'Accès non autorisé.');
     }
 }
 
