@@ -59,12 +59,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', [CongeController::class, 'create'])->name('create');
         Route::post('/', [CongeController::class, 'store'])->name('store');
         Route::get('/{id}', [CongeController::class, 'show'])->name('show');
-        Route::post('/conges/{id}/validate-manager', [CongeController::class, 'validateManager'])->name('validateManager');
-        Route::post('/conges/{id}/validate-rh', [CongeController::class, 'validateRh'])->name('validateRh');
-        Route::post('/conges/{id}/reject-manager', [CongeController::class, 'rejectManager'])->name('rejectManager');
-        Route::post('/conges/{id}/reject-rh', [CongeController::class, 'rejectRh'])->name('rejectRh');
-
+        Route::post('/{id}/validate-manager', [CongeController::class, 'validateManager'])->name('validateManager');
+        Route::post('/{id}/validate-rh', [CongeController::class, 'validateRh'])->name('validateRh');
+        Route::post('/{id}/reject-manager', [CongeController::class, 'rejectManager'])->name('rejectManager');
+        Route::post('/{id}/reject-rh', [CongeController::class, 'rejectRh'])->name('rejectRh');
     });
+    
 
     Route::prefix('recuperations')->name('recuperations.')->group(function () {
         Route::get('/solde', [RecuperationController::class, 'soldeRecuperations'])->name('solde');

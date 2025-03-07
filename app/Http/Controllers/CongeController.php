@@ -8,11 +8,22 @@ use App\Models\Conge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\CarbonPeriod;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Illuminate\Routing\Controller as BaseController;
 
-
-
-class CongeController extends Controller
+class CongeController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('can:view-conge')->only(['index', 'show', 'soldeConges']);
+        $this->middleware('can:create-conge')->only(['create', 'store']);
+        $this->middleware('can:gestion-conge')->only(['gestionConges']);
+        $this->middleware('can:manager-validate-conge')->only(['validateManager']);
+        $this->middleware('can:manager-reject-conge')->only(['rejectManager']);
+        $this->middleware('can:rh-validate-conge')->only(['validateRh']);
+        $this->middleware('can:rh-reject-conge')->only(['rejectRh']);
+    }
+
     public function index()
     {
         $conges = Conge::where('user_id', auth()->id())->get();

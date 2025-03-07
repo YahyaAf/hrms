@@ -46,15 +46,21 @@
                     <x-nav-link :href="route('carrieres.historique')" :active="request()->routeIs('carrieres.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Historique') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('conges.index')" :active="request()->routeIs('conges.*')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Conges') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('conges.solde')" :active="request()->routeIs('conges.solde')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Solde') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('conges.gestion')" :active="request()->routeIs('conges.gestion')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Gestion de Congé') }}
-                    </x-nav-link>
+                    @can('view-conge')
+                        <x-nav-link :href="route('conges.index')" :active="request()->routeIs('conges.*')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Conges') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('view-conge')
+                        <x-nav-link :href="route('conges.solde')" :active="request()->routeIs('conges.solde')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Solde') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('gestion-conge')
+                        <x-nav-link :href="route('conges.gestion')" :active="request()->routeIs('conges.gestion')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Gestion de Congé') }}
+                        </x-nav-link>
+                    @endcan
                     <x-nav-link :href="route('recuperations.gestion')" :active="request()->routeIs('recuperations.gestion')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Recuperation') }}
                     </x-nav-link>                    
