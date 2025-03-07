@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('recuperations')->name('recuperations.')->group(function () {
+        Route::get('/solde', [RecuperationController::class, 'soldeRecuperations'])->name('solde'); 
         Route::get('/', [RecuperationController::class, 'index'])->name('index');
         Route::get('/create', [RecuperationController::class, 'create'])->name('create');
         Route::post('/', [RecuperationController::class, 'store'])->name('store');

@@ -60,7 +60,13 @@ class RecuperationController extends Controller
         return view('recuperations.show', compact('recuperation'));
     }
 
-    
+    public function soldeRecuperations()
+    {
+        $user = Auth::user();
+
+        return view('recuperations.solde', compact('user'));
+    }
+
     public function validateRh($id)
     {
         $recuperation = Recuperation::findOrFail($id);
