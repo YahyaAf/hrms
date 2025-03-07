@@ -11,6 +11,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\HierarchyController;
 use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\RecuperationController;
 
 
 
@@ -63,6 +64,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/conges/{id}/reject-manager', [CongeController::class, 'rejectManager'])->name('rejectManager');
         Route::post('/conges/{id}/reject-rh', [CongeController::class, 'rejectRh'])->name('rejectRh');
 
+    });
+
+    Route::prefix('recuperations')->name('recuperations.')->group(function () {
+        Route::get('/', [RecuperationController::class, 'index'])->name('index');
+        Route::get('/create', [RecuperationController::class, 'create'])->name('create');
+        Route::post('/', [RecuperationController::class, 'store'])->name('store');
+        Route::get('/{id}', [RecuperationController::class, 'show'])->name('show');
+        Route::put('/{id}/approve', [RecuperationController::class, 'validateRh'])->name('validateRh');
+        Route::put('/{id}/reject', [RecuperationController::class, 'rejectRh'])->name('rejectRh');
     });
     
     
