@@ -79,6 +79,14 @@
             </div>
 
             <div class="mb-4">
+                <label for="solde_recuperation" class="block text-gray-700 font-semibold">Solde recuperation</label>
+                <input type="number" class="form-input mt-1 block w-full" id="solde_recuperation" name="solde_recuperation" value="{{ old('solde_recuperation', $user->solde_recuperation) }}">
+                @error('solde_recuperation') 
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
                 <label for="statut" class="block text-gray-700 font-semibold">Statut</label>
                 <input type="text" class="form-input mt-1 block w-full" id="statut" name="statut" value="{{ old('statut', $user->statut) }}">
                 @error('statut') 
