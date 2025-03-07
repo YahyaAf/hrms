@@ -35,6 +35,7 @@ class StoreUserRequest extends FormRequest
             'departement_id' => 'nullable|exists:departements,id',
             'emploi_id' => 'nullable|exists:emplois,id',
             'grade_id' => 'nullable|exists:grades,id',
+            'solde_recuperation' => 'nullable',
         ];
     }
 }

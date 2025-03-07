@@ -30,6 +30,7 @@ class User extends Authenticatable
         'departement_id',
         'emploi_id',
         'grade_id',
+        'solde_recuperation',
     ];
 
     /**
