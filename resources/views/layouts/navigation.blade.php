@@ -48,12 +48,12 @@
                     </x-nav-link>
                     @can('view-conge')
                         <x-nav-link :href="route('conges.index')" :active="request()->routeIs('conges.*')" class="text-white hover:text-indigo-100 font-medium">
-                            {{ __('Conges') }}
+                            {{ __('Conge de Reciperation') }}
                         </x-nav-link>
                     @endcan
                     @can('view-conge')
                         <x-nav-link :href="route('conges.solde')" :active="request()->routeIs('conges.solde')" class="text-white hover:text-indigo-100 font-medium">
-                            {{ __('Solde') }}
+                            {{ __('Solde Reciperation') }}
                         </x-nav-link>
                     @endcan
                     @can('gestion-conge')
@@ -61,9 +61,21 @@
                             {{ __('Gestion de Congé') }}
                         </x-nav-link>
                     @endcan
-                    <x-nav-link :href="route('recuperations.gestion')" :active="request()->routeIs('recuperations.gestion')" class="text-white hover:text-indigo-100 font-medium">
-                        {{ __('Recuperation') }}
-                    </x-nav-link>                    
+                    @can('view-recuperation')
+                        <x-nav-link :href="route('recuperations.index')" :active="request()->routeIs('recuperations.index')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Conge de Recuperation') }}
+                        </x-nav-link> 
+                    @endcan 
+                    @can('view-recuperation')
+                        <x-nav-link :href="route('recuperations.solde')" :active="request()->routeIs('recuperations.solde')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Solde Recuperation') }}
+                        </x-nav-link> 
+                    @endcan 
+                    @can('gestion-recuperation')
+                        <x-nav-link :href="route('recuperations.gestion')" :active="request()->routeIs('recuperations.gestion')" class="text-white hover:text-indigo-100 font-medium">
+                            {{ __('Gestion de Recuperation') }}
+                        </x-nav-link> 
+                    @endcan                   
                     <x-nav-link :href="route('hierarchy.index')" :active="request()->routeIs('hierarchy.*')" class="text-white hover:text-indigo-100 font-medium">
                         {{ __('Hierarchy') }}
                     </x-nav-link>

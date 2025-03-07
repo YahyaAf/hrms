@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Recuperation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller as BaseController;
 
-class RecuperationController extends Controller
+class RecuperationController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view-recuperation')->only(['index', 'show', 'soldeRecuperations']);
+        $this->middleware('permission:create-recuperation')->only(['create', 'store']);
+        $this->middleware('permission:gestion-recuperation')->only(['gestionRecuperations']);
+        $this->middleware('permission:validate-recuperation')->only(['validateRh']);
+        $this->middleware('permission:reject-recuperation')->only(['rejectRh']);
+    }
+
     public function index()
     {
         $recuperations = Recuperation::where('user_id', Auth::id())->get();
